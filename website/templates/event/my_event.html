@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Liste de mes Événements{% endblock %}
+{% block content %}
+<div class="container">
+
+
+    <br>
+    <div align="center">
+        <a href="{{ url_for('views.add_event') }}" class="btn btn-primary btn-sm">Creer un Événement</a>
+    </div>
+
+    <h3>Liste de mes Événements</h3>
+
+    <!-- Formulaire de recherche et de filtrage -->
+    <form method="POST" class="mb-3">
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" name="searchQuery" placeholder="Rechercher un événement...">
+            </div>
+            <div class="col">
+                <select class="form-select" name="filterType">
+                    <option value="" {% if not current_filter_type %}selected{% endif %}>Tous</option>
+                    <option value="Actif" {% if current_filter_type == 'Actif' %}selected{% endif %}>Événements Actifs</option>
+                    <option value="Passif" {% if current_filter_type == 'Passif' %}selected{% endif %}>Événements Passifs</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select" name="filterCategory">
+                    <option value="Tous" {% if not current_filter_category %}selected{% endif %}>Toutes les catégories</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if current_filter_category == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Filtres actuellement appliqués -->
+    {% if current_filter_type or current_filter_category %}
+    <div class="mb-3">
+        <h5>Filtres actuels :</h5>
+        {% if current_filter_type %}
+            <p><strong>Type :</strong> {{ current_filter_type }}</p>
+        {% endif %}
+        {% if current_filter_category %}
+            <p><strong>Catégorie :</strong> {{ current_filter_category }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Liste des événements filtrés -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.nom_event }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
+                    <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
+                    <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
+                    <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
+                </ul>
+                <div class="card-footer">
+                    <small class="text-muted">
+                        <a href="{{ url_for('views.edit_event', id=event.id_event) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="{{ url_for('views.delete_event', id=event.id_event) }}" class="btn btn-primary btn-sm">Supprimer</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

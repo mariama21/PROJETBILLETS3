@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Éditer un Événement{% endblock %}
+{% block content %}
+<div class="container">
+    <h3>Éditer un Événement</h3>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="nom_event" class="form-label">Nom de l'événement</label>
+            <input type="text" class="form-control" id="nom_event" name="nom_event" value="{{ event.nom_event }}">
+        </div>
+        <div class="mb-3">
+            <label for="statut" class="form-label">Statut</label>
+            <input type="text" class="form-control" id="statut" name="statut" value="{{ event.statut }}">
+        </div>
+        <div class="mb-3">
+            <label for="alias_event" class="form-label">Alias de l'événement</label>
+            <input type="text" class="form-control" id="alias_event" name="alias_event" value="{{ event.alias_event }}">
+        </div>
+        <div class="mb-3">
+            <label for="date_debut" class="form-label">Date de début</label>
+            <input type="datetime-local" class="form-control" id="date_debut" name="date_debut" value="{% if event.date_debut %}{{ event.date_debut.strftime('%Y-%m-%dT%H:%M') }}{% endif %}">
+        </div>
+        <div class="mb-3">
+            <label for="date_fin" class="form-label">Date de fin</label>
+            <input type="datetime-local" class="form-control" id="date_fin" name="date_fin" value="{% if event.date_fin %}{{ event.date_fin.strftime('%Y-%m-%dT%H:%M') }}{% endif %}">
+        </div>
+        <div class="mb-3">
+            <label for="categorie" class="form-label">Catégorie</label>
+            <input type="text" class="form-control" id="categorie" name="categorie" value="{{ event.categorie }}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description">{{ event.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="adresse_rue" class="form-label">Adresse Rue</label>
+            <input type="text" class="form-control" id="adresse_rue" name="adresse_rue" value="{{ event.adresse_rue }}">
+        </div>
+        <div class="mb-3">
+            <label for="adresse_cp" class="form-label">Code Postal</label>
+            <input type="text" class="form-control" id="adresse_cp" name="adresse_cp" value="{{ event.adresse_cp }}">
+        </div>
+        <div class="mb-3">
+            <label for="adresse_ville" class="form-label">Ville</label>
+            <input type="text" class="form-control" id="adresse_ville" name="adresse_ville" value="{{ event.adresse_ville }}">
+        </div>
+        <div class="mb-3">
+            <label for="adresse_pays" class="form-label">Pays</label>
+            <input type="text" class="form-control" id="adresse_pays" name="adresse_pays" value="{{ event.adresse_pays }}">
+        </div>
+        <div class="mb-3">
+            <label for="uuid_event" class="form-label">UUID de l'événement</label>
+            <input type="text" class="form-control" id="uuid_event" name="uuid_event" value="{{ event.uuid_event }}">
+        </div>
+        <div class="mb-3">
+            <label for="Actif" class="form-label">Actif</label>
+            <input type="checkbox" class="form-check-input" id="Actif" name="Actif" {% if event.Actif %}checked{% endif %}>
+        </div>
+        <div class="mb-3">
+            <label for="Type" class="form-label">Type</label>
+            <input type="text" class="form-control" id="Type" name="Type" value="{{ event.Type }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter un événement{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <h3>Ajouter un événement</h3>
+    <div class="form-group">
+        <label for="nom_event">Nom de l'événement :</label>
+        <input type="text" class="form-control" id="nom_event" name="nom_event" required>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut :</label>
+        <input type="text" class="form-control" id="statut" name="statut">
+    </div>
+    <div class="form-group">
+        <label for="alias_event">Alias de l'événement :</label>
+        <input type="text" class="form-control" id="alias_event" name="alias_event">
+    </div>
+    <div class="form-group">
+        <label for="date_debut">Date de début :</label>
+        <input type="datetime-local" class="form-control" id="date_debut" name="date_debut">
+    </div>
+    <div class="form-group">
+        <label for="date_fin">Date de fin :</label>
+        <input type="datetime-local" class="form-control" id="date_fin" name="date_fin">
+    </div>
+    <div class="form-group">
+        <label for="categorie">Catégorie :</label>
+        <input type="text" class="form-control" id="categorie" name="categorie">
+    </div>
+    <div class="form-group">
+        <label for="description">Description :</label>
+        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="adresse_rue">Adresse (rue) :</label>
+        <input type="text" class="form-control" id="adresse_rue" name="adresse_rue">
+    </div>
+    <div class="form-group">
+        <label for="adresse_cp">Code postal :</label>
+        <input type="text" class="form-control" id="adresse_cp" name="adresse_cp">
+    </div>
+    <div class="form-group">
+        <label for="adresse_ville">Ville :</label>
+        <input type="text" class="form-control" id="adresse_ville" name="adresse_ville">
+    </div>
+    <div class="form-group">
+        <label for="adresse_pays">Pays :</label>
+        <input type="text" class="form-control" id="adresse_pays" name="adresse_pays">
+    </div>
+    <div class="form-group">
+        <label for="uuid_event">UUID de l'événement :</label>
+        <input type="text" class="form-control" id="uuid_event" name="uuid_event">
+    </div>
+    <div class="form-group">
+        <label for="Actif">Actif :</label>
+        <select class="form-control" id="Actif" name="Actif">
+            <option value="1">Oui</option>
+            <option value="0">Non</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Type">Type :</label>
+        <input type="text" class="form-control" id="Type" name="Type">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+{% endblock %}

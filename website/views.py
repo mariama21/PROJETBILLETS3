@@ -1,35 +1,204 @@
-from flask import Blueprint, render_template,request, flash, redirect, url_for
+from datetime import datetime
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from website.models import Note
+from website.models import Event, Reservation
 from website import db
 
-
 views = Blueprint('views', __name__)
+
+
+def get_filtered_events(events, search_query=None, filter_type=None, filter_category=None):
+    if filter_type:
+        events = [event for event in events if event.Actif] if filter_type == 'Actif' else [event for event in events if
+                                                                                            not event.Actif]
+
+    if search_query:
+        events = [event for event in events if search_query.lower() in event.nom_event.lower()]
+
+    if filter_category and filter_category != 'Tous':
+        events = [event for event in events if event.categorie == filter_category]
+
+    return events
+
+
 @views.route('/', methods=['GET', 'POST'])
+def list_events():
+    all_events = Event.query.all()
+    categories = {event.categorie for event in all_events}
+
+    search_query = request.form.get('searchQuery')
+    filter_type = request.form.get('filterType')
+    filter_category = request.form.get('filterCategory')
+
+    if filter_type == 'Actif':
+        all_events = [event for event in all_events if event.Actif]
+    elif filter_type == 'Passif':
+        all_events = [event for event in all_events if not event.Actif]
+
+    if search_query:
+        all_events = [event for event in all_events if search_query.lower() in event.nom_event.lower()]
+
+    if filter_category and filter_category != 'Tous':
+        all_events = [event for event in all_events if event.categorie == filter_category]
+
+    user_reservations = set()
+    if current_user.is_authenticated:
+        user_reservations = {reservation.id_event for reservation in current_user.reservations}
+
+    return render_template("event/list_event.html",
+                           events=all_events,
+                           categories=categories,
+                           current_filter_type=filter_type,
+                           current_filter_category=filter_category,
+                           user=current_user,
+                           user_reservations=user_reservations)
+
+
+@views.route("/add-event", methods=['GET', 'POST'])
 @login_required
-def home():
+def add_event():
     if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Note too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
+        try:
+            new_event = Event(
+                nom_event=request.form.get('nom_event'),
+                statut=request.form.get('statut'),
+                alias_event=request.form.get('alias_event'),
+                date_debut=datetime.strptime(request.form.get('date_debut'), '%Y-%m-%dT%H:%M') if request.form.get(
+                    'date_debut') else None,
+                date_fin=datetime.strptime(request.form.get('date_fin'), '%Y-%m-%dT%H:%M') if request.form.get(
+                    'date_fin') else None,
+                categorie=request.form.get('categorie'),
+                description=request.form.get('description'),
+                adresse_rue=request.form.get('adresse_rue'),
+                adresse_cp=request.form.get('adresse_cp'),
+                adresse_ville=request.form.get('adresse_ville'),
+                adresse_pays=request.form.get('adresse_pays'),
+                uuid_event=request.form.get('uuid_event'),
+                user_id=current_user.id,
+                Actif=True if request.form.get('Actif') == '1' else False,
+                Type=request.form.get('Type')
+            )
+            db.session.add(new_event)
             db.session.commit()
-            flash('Note Added', category='successful')
+            flash('Événement ajouté avec succès!', category='success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erreur lors de l\'ajout de l\'événement: {str(e)}', category='error')
+        return redirect(url_for('views.add_event'))
 
-    return render_template("home.html", user=current_user)
+    return render_template("event/add_event.html", user=current_user)
 
-@views.route('/delete/<id>/', methods = ['GET', 'POST'])
-def delete(id):
-    my_data = Note.query.get(id)
-    db.session.delete(my_data)
-    db.session.commit()
-    flash('Employee Deleted Successfully')
-    return redirect(url_for('views.home'))
 
-@views.route('/')
-def Home():
-    all_data = Note.query.all()
-    return render_template("home.html", employees=all_data)
+@views.route('event/delete/<id>/', methods=['GET', 'POST'])
+@login_required
+def delete_event(id):
+    try:
+        event = Event.query.get(id)
+        db.session.delete(event)
+        db.session.commit()
+        flash('Événement supprimé avec succès!', category='success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Erreur lors de la suppression de l\'événement: {str(e)}', category='error')
+    return redirect(url_for('views.list_mes_events'))
 
+
+@views.route('/event/edit/<int:id>/', methods=['GET', 'POST'])
+@login_required
+def edit_event(id):
+    event = Event.query.get_or_404(id)
+
+    if request.method == 'POST':
+        try:
+            event.nom_event = request.form.get('nom_event')
+            event.statut = request.form.get('statut')
+            event.alias_event = request.form.get('alias_event')
+            event.date_debut = datetime.strptime(request.form.get('date_debut'), '%Y-%m-%dT%H:%M') if request.form.get(
+                'date_debut') else None
+            event.date_fin = datetime.strptime(request.form.get('date_fin'), '%Y-%m-%dT%H:%M') if request.form.get(
+                'date_fin') else None
+            event.categorie = request.form.get('categorie')
+            event.description = request.form.get('description')
+            event.adresse_rue = request.form.get('adresse_rue')
+            event.adresse_cp = request.form.get('adresse_cp')
+            event.adresse_ville = request.form.get('adresse_ville')
+            event.adresse_pays = request.form.get('adresse_pays')
+            event.uuid_event = request.form.get('uuid_event')
+            event.Actif = True if request.form.get('Actif') == '1' else False
+            event.Type = request.form.get('Type')
+            db.session.commit()
+            flash('Événement modifié avec succès!', category='success')
+            return redirect(url_for('views.list_events'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erreur lors de la modification de l\'événement: {str(e)}', category='error')
+
+    return render_template("event/edit_event.html", event=event, user=current_user)
+
+
+@views.route('/list-mes-events', methods=['GET', 'POST'])
+@login_required
+def list_mes_events():
+    all_events = Event.query.filter_by(user_id=current_user.id).all()
+    categories = {event.categorie for event in all_events}
+
+    search_query = request.form.get('searchQuery')
+    filter_type = request.form.get('filterType')
+    filter_category = request.form.get('filterCategory')
+
+    filtered_events = get_filtered_events(all_events, search_query, filter_type, filter_category)
+
+    return render_template("event/my_event.html",
+                           events=filtered_events,
+                           categories=categories,
+                           current_filter_type=filter_type,
+                           current_filter_category=filter_category,
+                           user=current_user)
+
+
+@views.route('event/reserve/<int:event_id>/', methods=['GET', 'POST'])
+@login_required
+def reserve_event(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    # Check if the current user is the creator of the event
+    if event.user_id == current_user.id:
+        flash("Vous ne pouvez pas réserver votre propre événement.", category='error')
+        return redirect(url_for('views.list_events'))
+
+    if request.method == 'POST' and event:
+        new_reservation = Reservation(
+            id_client=current_user.id,
+            id_event=event_id,
+            statut='attente'
+        )
+
+        db.session.add(new_reservation)
+        db.session.commit()
+
+        flash('Réservation effectuée avec succès!', category='success')
+        return redirect(url_for('views.list_events'))
+
+    return redirect(url_for('views.list_events'))
+
+
+@views.route('event/cancel/<int:event_id>/', methods=['POST'])
+@login_required
+def cancel_reservation(event_id):
+    reservation = Reservation.query.filter_by(id_event=event_id, id_client=current_user.id).first()
+    if reservation:
+        db.session.delete(reservation)
+        db.session.commit()
+        flash('Réservation annulée avec succès!', category='success')
+    else:
+        flash('Réservation non trouvée!', category='error')
+    return redirect(url_for('views.list_events'))
+
+
+@views.route('/list_reservation', methods=['GET'])
+@login_required
+def list_reservations():
+    reservations = Reservation.query.filter_by(id_client=current_user.id).all()
+    events = [reservation.event for reservation in reservations]
+    return render_template("reservation/my_reservation.html", events=events,
+                           user=current_user)

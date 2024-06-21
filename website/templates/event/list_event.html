@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Liste des Événements{% endblock %}
+{% block content %}
+<div class="container">
+    <h3>Liste des Événements</h3>
+
+    <form method="POST" class="mb-3">
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" name="searchQuery" placeholder="Rechercher un événement...">
+            </div>
+            <div class="col">
+                <select class="form-select" name="filterType">
+                    <option value="" {% if not current_filter_type %}selected{% endif %}>Tous</option>
+                    <option value="Actif" {% if current_filter_type == 'Actif' %}selected{% endif %}>Événements Actifs</option>
+                    <option value="Passif" {% if current_filter_type == 'Passif' %}selected{% endif %}>Événements Passifs</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select" name="filterCategory">
+                    <option value="Tous" {% if not current_filter_category %}selected{% endif %}>Toutes les catégories</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if current_filter_category == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </form>
+
+    {% if current_filter_type or current_filter_category %}
+    <div class="mb-3">
+        <h5>Filtres actuels :</h5>
+        {% if current_filter_type %}
+            <p><strong>Type :</strong> {{ current_filter_type }}</p>
+        {% endif %}
+        {% if current_filter_category %}
+            <p><strong>Catégorie :</strong> {{ current_filter_category }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.nom_event }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
+                    <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
+                    <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
+                    <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
+                </ul>
+                <div class="card-footer">
+                    <small class="text-muted">
+                        {% if current_user.is_authenticated %}
+                            {% if event.user_id != current_user.id %}
+                                <form action="{{ url_for('views.reserve_event', event_id=event.id_event) }}" method="post">
+                                    <button type="submit" class="btn btn-primary btn-sm">Réserver</button>
+                                </form>
+                            {% else %}
+                                <button class="btn btn-secondary btn-sm" disabled>Votre Événement</button>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">Se connecter pour réserver</a>
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
