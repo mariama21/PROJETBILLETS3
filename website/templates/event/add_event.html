@@ -9,38 +9,63 @@
         <!-- Informations générales -->
         <fieldset class="border border-gray-300 p-4 rounded-md mb-6">
             <legend class="text-lg font-semibold mb-4">Informations générales</legend>
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="nom_event" class="block text-sm font-medium text-gray-700">Nom de l'événement :</label>
-                <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="nom_event" name="nom_event" required>
+                <div class="relative">
+                    <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="nom_event" name="nom_event" required>
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-calendar-alt text-gray-400"></i>
+                    </div>
+                </div>
                 <div class="text-xs text-red-500 mt-1" id="nom_event_error"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="statut" class="block text-sm font-medium text-gray-700">Statut :</label>
-                    <select class="form-select mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="statut" name="statut" required>
-                        <option value="Actif" selected>Actif</option>
-                        <option value="Passif">Passif</option>
-                    </select>
+                    <div class="relative">
+                        <select class="form-select mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="statut" name="statut" required>
+                            <option value="Actif" selected>Actif</option>
+                            <option value="Passif">Passif</option>
+                        </select>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-toggle-on text-gray-400"></i>
+                        </div>
+                    </div>
                     <div class="text-xs text-red-500 mt-1" id="statut_error"></div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="alias_event" class="block text-sm font-medium text-gray-700">Alias de l'événement :</label>
-                    <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="alias_event" name="alias_event">
+                    <div class="relative">
+                        <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="alias_event" name="alias_event">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user-tag text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début :</label>
-                    <input type="datetime-local" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="date_debut" name="date_debut" required>
+                    <div class="relative">
+                        <input type="datetime-local" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="date_debut" name="date_debut" required>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-calendar-plus text-gray-400"></i>
+                        </div>
+                    </div>
                     <div class="text-xs text-red-500 mt-1" id="date_debut_error"></div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin :</label>
-                    <input type="datetime-local" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="date_fin" name="date_fin" required>
+                    <div class="relative">
+                        <input type="datetime-local" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="date_fin" name="date_fin" required>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-calendar-minus text-gray-400"></i>
+                        </div>
+                    </div>
                     <div class="text-xs text-red-500 mt-1" id="date_fin_error"></div>
                 </div>
             </div>
@@ -49,43 +74,73 @@
         <!-- Description et adresse -->
         <fieldset class="border border-gray-300 p-4 rounded-md mb-6">
             <legend class="text-lg font-semibold mb-4">Description et adresse</legend>
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="categorie" class="block text-sm font-medium text-gray-700">Catégorie :</label>
-                <select class="form-select mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="categorie" name="categorie" required>
-                    <option value="Culture" selected>Culture</option>
-                    <option value="Sport">Sport</option>
-                    <option value="Musique">Musique</option>
-                    <option value="Business">Business</option>
-                    <option value="Autre">Autre</option>
-                </select>
+                <div class="relative">
+                    <select class="form-select mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="categorie" name="categorie" required>
+                        <option value="Culture" selected>Culture</option>
+                        <option value="Sport">Sport</option>
+                        <option value="Musique">Musique</option>
+                        <option value="Business">Business</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-tags text-gray-400"></i>
+                    </div>
+                </div>
                 <div class="text-xs text-red-500 mt-1" id="categorie_error"></div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="description" class="block text-sm font-medium text-gray-700">Description :</label>
-                <textarea class="form-textarea mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="description" name="description" rows="5" required></textarea>
+                <div class="relative">
+                    <textarea class="form-textarea mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="description" name="description" rows="5" required></textarea>
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-start pt-2 pointer-events-none">
+                        <i class="fas fa-align-left text-gray-400"></i>
+                    </div>
+                </div>
                 <div class="text-xs text-red-500 mt-1" id="description_error"></div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="adresse_rue" class="block text-sm font-medium text-gray-700">Adresse (rue) :</label>
-                <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_rue" name="adresse_rue">
+                <div class="relative">
+                    <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_rue" name="adresse_rue">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-road text-gray-400"></i>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="adresse_cp" class="block text-sm font-medium text-gray-700">Code postal :</label>
-                    <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_cp" name="adresse_cp">
+                    <div class="relative">
+                        <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_cp" name="adresse_cp">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-mail-bulk text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="adresse_ville" class="block text-sm font-medium text-gray-700">Ville :</label>
-                    <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_ville" name="adresse_ville">
+                    <div class="relative">
+                        <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_ville" name="adresse_ville">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-city text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="adresse_pays" class="block text-sm font-medium text-gray-700">Pays :</label>
-                    <input type="text" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_pays" name="adresse_pays">
+                    <div class="relative">
+                        <input type="text" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="adresse_pays" name="adresse_pays">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-globe text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -94,28 +149,43 @@
         <fieldset class="border border-gray-300 p-4 rounded-md mb-6">
             <legend class="text-lg font-semibold mb-4">Autres informations</legend>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="nombre_places" class="block text-sm font-medium text-gray-700">Nombre de places :</label>
-                    <input type="number" class="form-input mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="nombre_places" name="nombre_places" required>
+                    <div class="relative">
+                        <input type="number" class="form-input mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="nombre_places" name="nombre_places" required>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-users text-gray-400"></i>
+                        </div>
+                    </div>
                     <div class="text-xs text-red-500 mt-1" id="nombre_places_error"></div>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 relative">
                     <label for="Actif" class="block text-sm font-medium text-gray-700">Actif :</label>
-                    <select class="form-select mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="Actif" name="Actif" required>
-                        <option value="1">Oui</option>
-                        <option value="0">Non</option>
-                    </select>
+                    <div class="relative">
+                        <select class="form-select mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="Actif" name="Actif" required>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-check-circle text-gray-400"></i>
+                        </div>
+                    </div>
                     <div class="text-xs text-red-500 mt-1" id="Actif_error"></div>
                 </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="Type" class="block text-sm font-medium text-gray-700">Type :</label>
-                <select class="form-select mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="Type" name="Type" required>
-                    <option value="Public" selected>Public</option>
-                    <option value="Privé">Privé</option>
-                </select>
+                <div class="relative">
+                    <select class="form-select mt-1 block w-full pl-10 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="Type" name="Type" required>
+                        <option value="Public" selected>Public</option>
+                        <option value="Privé">Privé</option>
+                    </select>
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-users-cog text-gray-400"></i>
+                    </div>
+                </div>
                 <div class="text-xs text-red-500 mt-1" id="Type_error"></div>
             </div>
         </fieldset>

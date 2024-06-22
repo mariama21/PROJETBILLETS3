@@ -5,7 +5,9 @@
 
     <!-- Bouton de création d'événement -->
     <div class="mb-4 text-center">
-        <a href="{{ url_for('views.add_event') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm">Créer un Événement</a>
+        <a href="{{ url_for('views.add_event') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm">
+            <i class="fas fa-plus"></i> Créer un Événement
+        </a>
     </div>
 
     <!-- Titre de la page -->
@@ -28,7 +30,9 @@
                             <option value="{{ category }}" {% if current_filter_category == category %}selected{% endif %}>{{ category }}</option>
                         {% endfor %}
                     </select>
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full">Appliquer</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full">
+                        <i class="fas fa-filter"></i> Appliquer
+                    </button>
                 </div>
             </form>
 
@@ -64,10 +68,16 @@
                             <li><strong>Nombre de places disponibles :</strong> {{ event.nombre_places }}</li>
                         </ul>
                         <div class="flex justify-end space-x-2">
-                            <a href="{{ url_for('views.event_reservations', event_id=event.id_event) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">Voir les réservations</a>
-                            <a href="{{ url_for('views.edit_event', id=event.id_event) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">Modifier</a>
+                            <a href="{{ url_for('views.event_reservations', event_id=event.id_event) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">
+                                <i class="fas fa-list"></i> Voir les réservations
+                            </a>
+                            <a href="{{ url_for('views.edit_event', id=event.id_event) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
                             <form action="{{ url_for('views.delete_event', id=event.id_event) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.');">
-                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">Supprimer</button>
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md shadow-sm w-full text-center">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
                             </form>
                         </div>
                     </div>

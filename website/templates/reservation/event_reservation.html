@@ -4,15 +4,32 @@
 <div class="container mx-auto px-4 py-8">
     <h3 class="text-3xl font-bold mb-6">Réservations pour {{ event.nom_event }}</h3>
 
-    <div class="bg-white shadow-sm rounded-md mb-6 p-4">
-        <h5 class="text-xl font-semibold mb-2">{{ event.nom_event }}</h5>
+    <div class="bg-white shadow-sm rounded-md mb-6 p-6">
+        <h5 class="text-xl font-semibold mb-2">
+            <i class="fas fa-calendar-alt mr-2"></i>{{ event.nom_event }}
+        </h5>
         <p class="text-gray-600 mb-4">{{ event.description }}</p>
-        <ul class="list-none p-0">
-            <li><span class="font-semibold">Statut :</span> {{ 'Actif' if event.Actif else 'Passif' }}</li>
-            <li><span class="font-semibold">Catégorie :</span> {{ event.categorie }}</li>
-            <li><span class="font-semibold">Date de début :</span> {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
-            <li><span class="font-semibold">Date de fin :</span> {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
-            <li><span class="font-semibold">Nombre de places :</span> {{ event.nombre_places }}</li>
+        <ul class="list-none p-0 space-y-2">
+            <li>
+                <i class="fas fa-info-circle text-gray-500 mr-2"></i>
+                <span class="font-semibold">Statut :</span> {{ 'Actif' if event.Actif else 'Passif' }}
+            </li>
+            <li>
+                <i class="fas fa-tag text-gray-500 mr-2"></i>
+                <span class="font-semibold">Catégorie :</span> {{ event.categorie }}
+            </li>
+            <li>
+                <i class="far fa-calendar-alt text-gray-500 mr-2"></i>
+                <span class="font-semibold">Date de début :</span> {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}
+            </li>
+            <li>
+                <i class="far fa-calendar-alt text-gray-500 mr-2"></i>
+                <span class="font-semibold">Date de fin :</span> {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}
+            </li>
+            <li>
+                <i class="fas fa-users text-gray-500 mr-2"></i>
+                <span class="font-semibold">Nombre de places :</span> {{ event.nombre_places }}
+            </li>
         </ul>
     </div>
 
@@ -21,11 +38,16 @@
         {% for reservation in reservations %}
         <li class="py-4 flex justify-between items-center">
             <div>
-                <p class="text-lg font-semibold">{{ reservation.id_client }} - {{ reservation.statut }}</p>
+                <p class="text-lg font-semibold">
+                    <i class="fas fa-user-circle text-gray-500 mr-2"></i>
+                    {{ reservation.id_client }} - {{ reservation.statut }}
+                </p>
             </div>
             {% if reservation.statut == 'attente' %}
             <form action="{{ url_for('views.confirm_reservation', reservation_id=reservation.id_reservation) }}" method="post">
-                <button type="submit" class="btn btn-success px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white font-bold">Confirmer</button>
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
+                    <i class="fas fa-check-circle mr-1"></i>Confirmer
+                </button>
             </form>
             {% endif %}
         </li>

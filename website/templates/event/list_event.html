@@ -2,48 +2,34 @@
 {% block title %}Liste des Événements{% endblock %}
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h3 class="text-3xl font-bold mb-4">Liste des Événements</h3>
+    <h3 class="text-3xl font-bold mb-4"><i class="fas fa-calendar-alt"></i> Liste des Événements</h3>
 
-    <!-- Formulaire de recherche et filtres -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 bg-white rounded-lg shadow-md p-4">
-        <form method="POST" class="flex flex-col space-y-4">
+    <!-- Formulaire de recherche et de filtrage -->
+    <form method="POST" class="mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <input class="form-input w-full px-3 py-2 border rounded-md shadow-sm" type="text" name="searchQuery" placeholder="Rechercher un événement...">
             <select class="form-select w-full px-3 py-2 border rounded-md shadow-sm" name="filterType">
-                <option value="" {% if not current_filter_type %}selected{% endif %}>Tous</option>
-                <option value="Actif" {% if current_filter_type == 'Actif' %}selected{% endif %}>Événements Actifs</option>
-                <option value="Passif" {% if current_filter_type == 'Passif' %}selected{% endif %}>Événements Passifs</option>
+                <option value="" {% if not current_filter_type %}selected{% endif %}><i class="fas fa-filter"></i> Tous</option>
+                <option value="Actif" {% if current_filter_type == 'Actif' %}selected{% endif %}><i class="fas fa-check-circle"></i> Événements Actifs</option>
+                <option value="Passif" {% if current_filter_type == 'Passif' %}selected{% endif %}><i class="fas fa-times-circle"></i> Événements Passifs</option>
             </select>
             <select class="form-select w-full px-3 py-2 border rounded-md shadow-sm" name="filterCategory">
-                <option value="Tous" {% if not current_filter_category %}selected{% endif %}>Toutes les catégories</option>
+                <option value="Tous" {% if not current_filter_category %}selected{% endif %}><i class="fas fa-tags"></i> Toutes les catégories</option>
                 {% for category in categories %}
-                    <option value="{{ category }}" {% if current_filter_category == category %}selected{% endif %}>{{ category }}</option>
+                    <option value="{{ category }}" {% if current_filter_category == category %}selected{% endif %}><i class="fas fa-tag"></i> {{ category }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm">Appliquer</button>
-        </form>
-
-        {% if current_filter_type or current_filter_category %}
-        <div class="col-span-3 md:col-span-1">
-            <div class="mb-6">
-                <h5 class="text-lg font-semibold mb-2">Filtres actuels :</h5>
-                {% if current_filter_type %}
-                    <p><strong>Type :</strong> {{ current_filter_type }}</p>
-                {% endif %}
-                {% if current_filter_category %}
-                    <p><strong>Catégorie :</strong> {{ current_filter_category }}</p>
-                {% endif %}
-            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"><i class="fas fa-search"></i> Appliquer</button>
         </div>
-        {% endif %}
-    </div>
+    </form>
 
-    <!-- Liste des événements -->
+    <!-- Liste des événements filtrés -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for event in events %}
         {% if event.user_id != current_user.id %}
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-4">
-                <h5 class="text-xl font-semibold mb-2">{{ event.nom_event }}</h5>
+                <h5 class="text-xl font-semibold mb-2"><i class="fas fa-calendar-alt"></i> {{ event.nom_event }}</h5>
                 <p class="text-gray-600 mb-4">{{ event.description }}</p>
                 <ul class="list-disc list-inside mb-4">
                     <li><strong>Statut :</strong> {{ 'Actif' if event.Actif else 'Passif' }}</li>
@@ -57,18 +43,18 @@
                         {% if event.user_id != current_user.id %}
                             {% if event.id_event in user_reservations %}
                                 <form action="{{ url_for('views.cancel_reservation', event_id=event.id_event) }}" method="post">
-                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md shadow-sm mr-2">Annuler</button>
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md shadow-sm"><i class="fas fa-times"></i> Annuler</button>
                                 </form>
                             {% else %}
                                 <form action="{{ url_for('views.reserve_event', event_id=event.id_event) }}" method="post">
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm mr-2">Réserver</button>
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm"><i class="fas fa-calendar-plus"></i> Réserver</button>
                                 </form>
                             {% endif %}
                         {% else %}
-                            <button class="bg-gray-400 text-white font-bold py-2 px-4 rounded-md shadow-sm cursor-not-allowed" disabled>Votre Événement</button>
+                            <button class="bg-gray-400 text-white font-bold py-2 px-4 rounded-md shadow-sm cursor-not-allowed" disabled><i class="fas fa-user"></i> Votre Événement</button>
                         {% endif %}
                     {% else %}
-                        <a href="{{ url_for('auth.login') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm">Se connecter pour réserver</a>
+                        <a href="{{ url_for('auth.login') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-sm"><i class="fas fa-sign-in-alt"></i> Se connecter pour réserver</a>
                     {% endif %}
                 </div>
             </div>

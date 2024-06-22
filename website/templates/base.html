@@ -6,24 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Home{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
 
     <!-- Navigation -->
-    <nav class="bg-blue-500 py-4 shadow-md">
+    <nav class="bg-gray-800 py-4">
         <div class="container mx-auto flex items-center justify-between px-4">
-            <a href="/" class="text-white text-2xl font-bold">EventRESERVE</a>
+            <a href="/" class="text-white text-xl font-bold"><i class="fas fa-calendar-alt"></i> EventRESERVE</a>
             <ul class="flex space-x-4">
-                <li><a href="/" class="text-white hover:text-blue-300">Accueil</a></li>
+                <li><a href="/" class="text-white hover:text-gray-300"><i class="fas fa-home"></i> Accueil</a></li>
                 {% if user.is_authenticated %}
-                <li><a href="/list_reservation" class="text-white hover:text-blue-300">Mes Réservations</a></li>
-                <li><a href="/list-mes-events" class="text-white hover:text-blue-300">Mes Événements</a></li>
-                <li><a href="/logout" class="text-white hover:text-blue-300">Logout</a></li>
+                <li><a href="/list_reservation" class="text-white hover:text-gray-300"><i class="fas fa-list"></i> Mes Réservations</a></li>
+                <li><a href="/list-mes-events" class="text-white hover:text-gray-300"><i class="fas fa-calendar-check"></i> Mes Événements</a></li>
+                <li><a href="/logout" class="text-white hover:text-gray-300"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 {% else %}
-                <li><a href="/login" class="text-white hover:text-blue-300">Login</a></li>
-                <li><a href="/sign-up" class="text-white hover:text-blue-300">Sign Up</a></li>
+                <li><a href="/login" class="text-white hover:text-gray-300"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="/sign-up" class="text-white hover:text-gray-300"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -35,13 +35,13 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-blue-500 text-white py-4">
+    <footer class="bg-gray-800 text-white py-4 mt-8">
         <div class="container mx-auto text-center px-4">
             <p>&copy; 2024 Votre Entreprise. Tous droits réservés.</p>
             <ul class="flex justify-center space-x-4 mt-4">
-                <li><a href="#" class="hover:text-blue-300">Conditions d'utilisation</a></li>
-                <li><span class="text-gray-300">|</span></li>
-                <li><a href="#" class="hover:text-blue-300">Politique de confidentialité</a></li>
+                <li><a href="#" class="hover:text-gray-300"><i class="fas fa-file-alt"></i> Conditions d'utilisation</a></li>
+                <li><span class="text-gray-400">|</span></li>
+                <li><a href="#" class="hover:text-gray-300"><i class="fas fa-shield-alt"></i> Politique de confidentialité</a></li>
             </ul>
         </div>
     </footer>
