@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
 from flask_login import login_required, current_user
 from website.models import Event, Reservation
 from website import db
@@ -73,6 +73,7 @@ def add_event():
                 adresse_cp=request.form.get('adresse_cp'),
                 adresse_ville=request.form.get('adresse_ville'),
                 adresse_pays=request.form.get('adresse_pays'),
+                nombre_places=request.form.get('nombre_places'),
                 uuid_event=request.form.get('uuid_event'),
                 user_id=current_user.id,
                 Actif=True if request.form.get('Actif') == '1' else False,
@@ -156,28 +157,29 @@ def list_mes_events():
                            user=current_user)
 
 
-@views.route('event/reserve/<int:event_id>/', methods=['GET', 'POST'])
+@views.route('/event/reserve/<int:event_id>/', methods=['POST'])
 @login_required
 def reserve_event(event_id):
     event = Event.query.get_or_404(event_id)
 
-    # Check if the current user is the creator of the event
-    if event.user_id == current_user.id:
-        flash("Vous ne pouvez pas réserver votre propre événement.", category='error')
-        return redirect(url_for('views.list_events'))
-
-    if request.method == 'POST' and event:
+    if event.nombre_places > 0:
+        # Créer une nouvelle réservation
         new_reservation = Reservation(
             id_client=current_user.id,
             id_event=event_id,
             statut='attente'
         )
 
+        # Décrémenter le nombre de places disponibles
+        event.nombre_places -= 1
+
+        # Ajouter la réservation à la base de données
         db.session.add(new_reservation)
         db.session.commit()
 
         flash('Réservation effectuée avec succès!', category='success')
-        return redirect(url_for('views.list_events'))
+    else:
+        flash('Désolé, plus de places disponibles pour cet événement.', category='error')
 
     return redirect(url_for('views.list_events'))
 
@@ -186,8 +188,12 @@ def reserve_event(event_id):
 @login_required
 def cancel_reservation(event_id):
     reservation = Reservation.query.filter_by(id_event=event_id, id_client=current_user.id).first()
+
+    event = reservation.event
+
     if reservation:
         db.session.delete(reservation)
+        event.nombre_places += 1
         db.session.commit()
         flash('Réservation annulée avec succès!', category='success')
     else:
@@ -202,3 +208,44 @@ def list_reservations():
     events = [reservation.event for reservation in reservations]
     return render_template("reservation/my_reservation.html", events=events,
                            user=current_user)
+
+
+@views.route('/event/reservations/<int:event_id>/', methods=['GET'])
+@login_required
+def event_reservations(event_id):
+    # Vérifier si l'utilisateur est le créateur de l'événement
+    event = Event.query.get_or_404(event_id)
+    if event.user_id != current_user.id:
+        abort(403)  # Interdire l'accès si l'utilisateur n'est pas le créateur de l'événement
+
+    # Récupérer les réservations pour cet événement
+    reservations = Reservation.query.filter_by(id_event=event_id).all()
+
+    return render_template("reservation/event_reservation.html",
+                           event=event,
+                           reservations=reservations,
+                           user=current_user)
+
+
+@views.route('/event/confirm-reservation/<int:reservation_id>/', methods=['POST'])
+@login_required
+def confirm_reservation(reservation_id):
+    reservation = Reservation.query.get_or_404(reservation_id)
+
+    # Vérifier si l'utilisateur est le créateur de l'événement associé à cette réservation
+    event = Event.query.get_or_404(reservation.id_event)
+    if event.user_id != current_user.id:
+        abort(403)  # Interdire l'accès si l'utilisateur n'est pas le créateur de l'événement
+
+    # Vérifier si des places sont disponibles
+    if event.nombre_places <= 0:
+        flash('Désolé, il n\'y a plus de places disponibles pour cet événement.', category='error')
+        return redirect(url_for('views.event_reservations', event_id=event.id_event))
+
+    # Mettre à jour le statut de la réservation à "confirmé"
+    reservation.statut = 'confirmé'
+    event.nombre_places -= 1  # Réduire le nombre de places disponibles
+    db.session.commit()
+
+    flash('Réservation confirmée avec succès!', category='success')
+    return redirect(url_for('views.event_reservations', event_id=reservation.id_event))

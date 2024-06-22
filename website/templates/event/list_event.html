@@ -44,6 +44,7 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for event in events %}
+         {% if event.user_id != current_user.id%}
         <div class="col">
             <div class="card h-100">
                 <div class="card-body">
@@ -55,14 +56,21 @@
                     <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
                     <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
                     <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
+                    <li class="list-group-item">Nombre de places disponibles : {{ event.nombre_places }}</li>
                 </ul>
                 <div class="card-footer">
                     <small class="text-muted">
                         {% if current_user.is_authenticated %}
                             {% if event.user_id != current_user.id %}
-                                <form action="{{ url_for('views.reserve_event', event_id=event.id_event) }}" method="post">
-                                    <button type="submit" class="btn btn-primary btn-sm">Réserver</button>
-                                </form>
+                                {% if event.id_event in user_reservations %}
+                                    <form action="{{ url_for('views.cancel_reservation', event_id=event.id_event) }}" method="post">
+                                        <button type="submit" class="btn btn-danger btn-sm">Annuler</button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ url_for('views.reserve_event', event_id=event.id_event) }}" method="post">
+                                        <button type="submit" class="btn btn-primary btn-sm">Réserver</button>
+                                    </form>
+                                {% endif %}
                             {% else %}
                                 <button class="btn btn-secondary btn-sm" disabled>Votre Événement</button>
                             {% endif %}
@@ -73,6 +81,7 @@
                 </div>
             </div>
         </div>
+         {% endif %}
         {% endfor %}
     </div>
 </div>

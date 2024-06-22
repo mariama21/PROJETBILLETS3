@@ -53,28 +53,31 @@
 
     <!-- Liste des événements filtrés -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for event in events %}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ event.nom_event }}</h5>
-                    <p class="card-text">{{ event.description }}</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
-                    <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
-                    <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
-                    <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
-                </ul>
-                <div class="card-footer">
-                    <small class="text-muted">
-                        <a href="{{ url_for('views.edit_event', id=event.id_event) }}" class="btn btn-primary btn-sm">Modifier</a>
+    {% for event in events %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ event.nom_event }}</h5>
+                <p class="card-text">{{ event.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
+                <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
+                <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
+                <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
+                <li class="list-group-item">Nombre de places disponibles : {{ event.nombre_places }}</li>
+            </ul>
+            <div class="card-footer">
+                <small class="text-muted">
+                    <a href="{{ url_for('views.event_reservations', event_id=event.id_event) }}" class="btn btn-primary btn-sm">Voir les réservations</a>
+                    <a href="{{ url_for('views.edit_event', id=event.id_event) }}" class="btn btn-primary btn-sm">Modifier</a>
                         <a href="{{ url_for('views.delete_event', id=event.id_event) }}" class="btn btn-primary btn-sm">Supprimer</a>
-                    </small>
-                </div>
+                </small>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+</div>
+
 </div>
 {% endblock %}

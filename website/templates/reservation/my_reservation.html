@@ -12,8 +12,15 @@
                     <p class="card-text">{{ event.description }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
+                    <li class="list-group-item">Statut evenement : {{ 'Actif' if event.Actif else 'Passif' }}</li>
                     <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
+                   <li class="list-group-item">
+                        {% if event.reservations %}
+                            Statut réservation : {{ event.reservations[0].statut }}
+                        {% else %}
+                            Aucune réservation
+                        {% endif %}
+                    </li>
                     <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
                     <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
                 </ul>

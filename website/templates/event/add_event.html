@@ -3,68 +3,122 @@
 {% block title %}Ajouter un événement{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h3>Ajouter un événement</h3>
-    <div class="form-group">
-        <label for="nom_event">Nom de l'événement :</label>
-        <input type="text" class="form-control" id="nom_event" name="nom_event" required>
-    </div>
-    <div class="form-group">
-        <label for="statut">Statut :</label>
-        <input type="text" class="form-control" id="statut" name="statut">
-    </div>
-    <div class="form-group">
-        <label for="alias_event">Alias de l'événement :</label>
-        <input type="text" class="form-control" id="alias_event" name="alias_event">
-    </div>
-    <div class="form-group">
-        <label for="date_debut">Date de début :</label>
-        <input type="datetime-local" class="form-control" id="date_debut" name="date_debut">
-    </div>
-    <div class="form-group">
-        <label for="date_fin">Date de fin :</label>
-        <input type="datetime-local" class="form-control" id="date_fin" name="date_fin">
-    </div>
-    <div class="form-group">
-        <label for="categorie">Catégorie :</label>
-        <input type="text" class="form-control" id="categorie" name="categorie">
-    </div>
-    <div class="form-group">
-        <label for="description">Description :</label>
-        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="adresse_rue">Adresse (rue) :</label>
-        <input type="text" class="form-control" id="adresse_rue" name="adresse_rue">
-    </div>
-    <div class="form-group">
-        <label for="adresse_cp">Code postal :</label>
-        <input type="text" class="form-control" id="adresse_cp" name="adresse_cp">
-    </div>
-    <div class="form-group">
-        <label for="adresse_ville">Ville :</label>
-        <input type="text" class="form-control" id="adresse_ville" name="adresse_ville">
-    </div>
-    <div class="form-group">
-        <label for="adresse_pays">Pays :</label>
-        <input type="text" class="form-control" id="adresse_pays" name="adresse_pays">
-    </div>
-    <div class="form-group">
-        <label for="uuid_event">UUID de l'événement :</label>
-        <input type="text" class="form-control" id="uuid_event" name="uuid_event">
-    </div>
-    <div class="form-group">
-        <label for="Actif">Actif :</label>
-        <select class="form-control" id="Actif" name="Actif">
-            <option value="1">Oui</option>
-            <option value="0">Non</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="Type">Type :</label>
-        <input type="text" class="form-control" id="Type" name="Type">
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Ajouter</button>
-</form>
+<div class="container">
+    <h3 class="mt-4 mb-4">Ajouter un événement</h3>
+    <form method="POST" class="needs-validation" >
+        <!-- Informations générales -->
+        <fieldset>
+            <legend>Informations générales</legend>
+            <div class="mb-3">
+                <label for="nom_event" class="form-label">Nom de l'événement :</label>
+                <input type="text" class="form-control" id="nom_event" name="nom_event" required>
+                <div class="invalid-feedback">Ce champ est requis.</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="statut" class="form-label">Statut :</label>
+                    <select class="form-select" id="statut" name="statut" required>
+                        <option value="Actif" selected>Actif</option>
+                        <option value="Passif">Passif</option>
+                    </select>
+                    <div class="invalid-feedback">Ce champ est requis.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="alias_event" class="form-label">Alias de l'événement :</label>
+                    <input type="text" class="form-control" id="alias_event" name="alias_event">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="date_debut" class="form-label">Date de début :</label>
+                    <input type="datetime-local" class="form-control" id="date_debut" name="date_debut" required>
+                    <div class="invalid-feedback">Ce champ est requis.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="date_fin" class="form-label">Date de fin :</label>
+                    <input type="datetime-local" class="form-control" id="date_fin" name="date_fin" required>
+                    <div class="invalid-feedback">Ce champ est requis.</div>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Description et adresse -->
+        <fieldset>
+            <legend>Description et adresse</legend>
+            <div class="mb-3">
+                <label for="categorie" class="form-label">Catégorie :</label>
+                <select class="form-select" id="categorie" name="categorie" required>
+                    <option value="Culture" selected>Culture</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Musique">Musique</option>
+                    <option value="Business">Business</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="invalid-feedback">Ce champ est requis.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description :</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                <div class="invalid-feedback">Ce champ est requis.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="adresse_rue" class="form-label">Adresse (rue) :</label>
+                <input type="text" class="form-control" id="adresse_rue" name="adresse_rue">
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="adresse_cp" class="form-label">Code postal :</label>
+                    <input type="text" class="form-control" id="adresse_cp" name="adresse_cp">
+                </div>
+                <div class="col-md-4">
+                    <label for="adresse_ville" class="form-label">Ville :</label>
+                    <input type="text" class="form-control" id="adresse_ville" name="adresse_ville">
+                </div>
+                <div class="col-md-4">
+                    <label for="adresse_pays" class="form-label">Pays :</label>
+                    <input type="text" class="form-control" id="adresse_pays" name="adresse_pays">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Autres informations -->
+        <fieldset>
+            <legend>Autres informations</legend>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nombre_places" class="form-label">Nombre de places :</label>
+                    <input type="number" class="form-control" id="nombre_places" name="nombre_places" required>
+                    <div class="invalid-feedback">Ce champ est requis.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="Actif" class="form-label">Actif :</label>
+                    <select class="form-select" id="Actif" name="Actif" required>
+                        <option value="1">Oui</option>
+                        <option value="0">Non</option>
+                    </select>
+                    <div class="invalid-feedback">Ce champ est requis.</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="Type" class="form-label">Type :</label>
+                <select class="form-select" id="Type" name="Type" required>
+                    <option value="Public" selected>Public</option>
+                    <option value="Privé">Privé</option>
+                </select>
+                <div class="invalid-feedback">Ce champ est requis.</div>
+            </div>
+        </fieldset>
+
+        <!-- Bouton Ajouter -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Ajouter</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

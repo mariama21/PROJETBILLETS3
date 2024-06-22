@@ -48,9 +48,10 @@ class Event(db.Model):
     adresse_ville = Column(String(45))
     adresse_pays = Column(String(45))
     uuid_event = Column(String(200))
-    Actif = Column(Boolean, default=True)
+    Actif = Column(Boolean)
     Type = Column(String(45))
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    nombre_places = Column(Integer, default=0)  # Champ pour le nombre de places disponibles
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     # Relationships
     reservations = relationship('Reservation', backref='event', lazy=True)
