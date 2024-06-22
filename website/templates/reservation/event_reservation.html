@@ -1,32 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Réservations pour {{ event.nom_event }}{% endblock %}
 {% block content %}
-<div class="container">
-    <h3>Réservations pour {{ event.nom_event }}</h3>
+<div class="container mx-auto px-4 py-8">
+    <h3 class="text-3xl font-bold mb-6">Réservations pour {{ event.nom_event }}</h3>
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">{{ event.nom_event }}</h5>
-            <p class="card-text">{{ event.description }}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Statut : {{ 'Actif' if event.Actif else 'Passif' }}</li>
-            <li class="list-group-item">Catégorie : {{ event.categorie }}</li>
-            <li class="list-group-item">Date de début : {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
-            <li class="list-group-item">Date de fin : {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
-            <li class="list-group-item">Nombre de places : {{ event.nombre_places }}</li>
+    <div class="bg-white shadow-sm rounded-md mb-6 p-4">
+        <h5 class="text-xl font-semibold mb-2">{{ event.nom_event }}</h5>
+        <p class="text-gray-600 mb-4">{{ event.description }}</p>
+        <ul class="list-none p-0">
+            <li><span class="font-semibold">Statut :</span> {{ 'Actif' if event.Actif else 'Passif' }}</li>
+            <li><span class="font-semibold">Catégorie :</span> {{ event.categorie }}</li>
+            <li><span class="font-semibold">Date de début :</span> {{ event.date_debut.strftime('%d/%m/%Y %H:%M') if event.date_debut else '' }}</li>
+            <li><span class="font-semibold">Date de fin :</span> {{ event.date_fin.strftime('%d/%m/%Y %H:%M') if event.date_fin else '' }}</li>
+            <li><span class="font-semibold">Nombre de places :</span> {{ event.nombre_places }}</li>
         </ul>
     </div>
 
-    <h5>Réservations :</h5>
-    <ul class="list-group">
+    <h5 class="text-xl font-semibold mb-4">Réservations :</h5>
+    <ul class="divide-y divide-gray-200">
         {% for reservation in reservations %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ reservation.id_client }} - {{ reservation.statut }}
+        <li class="py-4 flex justify-between items-center">
+            <div>
+                <p class="text-lg font-semibold">{{ reservation.id_client }} - {{ reservation.statut }}</p>
+            </div>
             {% if reservation.statut == 'attente' %}
             <form action="{{ url_for('views.confirm_reservation', reservation_id=reservation.id_reservation) }}" method="post">
-
-                <button type="submit" class="btn btn-success btn-sm">Confirmer</button>
+                <button type="submit" class="btn btn-success px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white font-bold">Confirmer</button>
             </form>
             {% endif %}
         </li>

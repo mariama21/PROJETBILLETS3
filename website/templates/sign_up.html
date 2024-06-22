@@ -3,48 +3,56 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h3 align="center">Inscription</h3>
-    <div class="form-group">
-        <label for="email">Adresse Email</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email" required>
-    </div>
-    <div class="form-group">
-        <label for="prenom">Prénom</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required>
-    </div>
-    <div class="form-group">
-        <label for="nom">Nom</label>
-        <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom" required>
-    </div>
-    <div class="form-group">
-        <label for="password1">Mot de passe</label>
-        <input type="password" class="form-control" id="password1" name="password1" placeholder="Entrez votre mot de passe" required>
-    </div>
-    <div class="form-group">
-        <label for="password2">Mot de passe (Confirmation)</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirmez votre mot de passe" required>
-    </div>
+<div class="container mx-auto max-w-sm mt-8">
+    <h3 class="text-2xl font-bold text-center mb-4">Inscription</h3>
+    <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Adresse Email</label>
+            <input type="email" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="email" name="email" placeholder="Entrez votre email" required>
+        </div>
+        <div class="mb-4">
+            <label for="prenom" class="block text-gray-700 text-sm font-bold mb-2">Prénom</label>
+            <input type="text" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="prenom" name="prenom" placeholder="Prénom" required>
+        </div>
+        <div class="mb-4">
+            <label for="nom" class="block text-gray-700 text-sm font-bold mb-2">Nom</label>
+            <input type="text" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="nom" name="nom" placeholder="Nom" required>
+        </div>
+        <div class="mb-4">
+            <label for="password1" class="block text-gray-700 text-sm font-bold mb-2">Mot de passe</label>
+            <input type="password" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="password1" name="password1" placeholder="Entrez votre mot de passe" required>
+        </div>
+        <div class="mb-6">
+            <label for="password2" class="block text-gray-700 text-sm font-bold mb-2">Mot de passe (Confirmation)</label>
+            <input type="password" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="password2" name="password2" placeholder="Confirmez votre mot de passe" required>
+        </div>
 
-    <label for="date_de_naissance">Date de naissance :</label><br>
-        <input type="date" id="date_de_naissance" name="date_de_naissance"><br><br>
+        <div class="mb-4">
+            <label for="date_de_naissance" class="block text-gray-700 text-sm font-bold mb-2">Date de naissance</label>
+            <input type="date" class="form-input w-full px-3 py-2 border rounded shadow appearance-none" id="date_de_naissance" name="date_de_naissance">
+        </div>
 
-        <label for="civilite">Civilité :</label><br>
-        <select id="civilite" name="civilite">
-            <option value="M.">M.</option>
-            <option value="Mme">Mme</option>
-            <option value="Mlle">Mlle</option>
-        </select><br><br>
+        <div class="mb-4">
+            <label for="civilite" class="block text-gray-700 text-sm font-bold mb-2">Civilité</label>
+            <select id="civilite" name="civilite" class="form-select w-full px-3 py-2 border rounded shadow appearance-none">
+                <option value="M.">M.</option>
+                <option value="Mme">Mme</option>
+                <option value="Mlle">Mlle</option>
+            </select>
+        </div>
 
-        <label for="genre">Genre :</label><br>
-        <select id="genre" name="genre">
-            <option value="Homme">Homme</option>
-            <option value="Femme">Femme</option>
-            <option value="Autre">Autre</option>
-        </select><br><br>
+        <div class="mb-4">
+            <label for="genre" class="block text-gray-700 text-sm font-bold mb-2">Genre</label>
+            <select id="genre" name="genre" class="form-select w-full px-3 py-2 border rounded shadow appearance-none">
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
 
-
-    <br>
-    <button type="submit" class="btn btn-primary">S'inscrire</button>
-</form>
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">S'inscrire</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
